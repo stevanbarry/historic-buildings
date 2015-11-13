@@ -1,4 +1,4 @@
-var coorsField = {
+var historicBuilds = {
     "type": "FeatureCollection",
     "features": [
         {
