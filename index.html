@@ -8,8 +8,17 @@
 
 	<link rel="stylesheet" href="leaflet/leaflet.css" />
 </head>
+<style>
+	body {
+		padding: 0;
+		margin: 0;
+	}
+	html, body, #map {
+		height: 100%;
+	}
+</style>
 <body>
-	<div id="map" style="  margin: 0; padding: 0; width: 800px; height: 800px"></div>
+	<div id="map"></div>
 
 	<script src="historic-buildings.geojson" type="text/javascript"></script>
 	<script src="leaflet/leaflet.js"></script>
@@ -35,15 +44,31 @@
 			layer.bindPopup(popupContent);
 		}
 
+		var icons = {
+			Critical: L.icon({
+				iconUrl: 'img/Critical.png',
+				iconSize: [32, 32],
+				iconAnchor: [16, 37],
+				popupAnchor: [0, -28]
+			}),
+			High: L.icon({
+				iconUrl: 'img/High.png',
+				iconSize: [32, 32],
+				iconAnchor: [16, 37],
+				popupAnchor: [0, -28]
+			}),
+			unknown: L.icon({
+				iconUrl: 'img/unknown.png',
+				iconSize: [32, 32],
+				iconAnchor: [16, 37],
+				popupAnchor: [0, -28]
+			})
+		}
+		
 		var coorsLayer = L.geoJson(historicBuilds, {
 			pointToLayer: function (feature, latlng) {
-				var BuildingIcon = L.icon({
-					iconUrl: 'img/' + feature.properties.risk + '.png',
-					iconSize: [32, 32],
-					iconAnchor: [16, 37],
-					popupAnchor: [0, -28]
+				return L.marker(latlng, {icon: icons[feature.properties.risk]
 				});
-				return L.marker(latlng, {icon: BuildingIcon});
 			},
 			onEachFeature: onEachFeature
 		}).addTo(map);
